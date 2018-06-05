@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sorter
+namespace TagHelper
 {
-    public static class TagHelper
+public static class Methods
     {
         public static int CheckEmptyPerformers(string currentfolder, List<TagLib.File> list)
         {
@@ -44,5 +44,6 @@ namespace Sorter
 
             return emtyPerformers;
         }
+
     }
 }

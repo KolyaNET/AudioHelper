@@ -49,7 +49,11 @@ namespace Sorter
             l.AddRange(list.Select(o => o.Name));
             listBox2.Items.AddRange(l.ToArray());
         }
-        
 
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            Close();
+            Application.Exit();
+        }
     }
 }
