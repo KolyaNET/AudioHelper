@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TagHelper
+namespace AudioHelperLib
 {
-    public class Sorter
+    public class Class1
     {
     }
 }
