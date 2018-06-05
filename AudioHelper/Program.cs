@@ -16,7 +16,7 @@ namespace Sorter
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new SorterForm());
+            Application.Run(new Client());
         }
     }
 }
