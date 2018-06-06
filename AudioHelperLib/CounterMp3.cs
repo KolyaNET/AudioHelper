@@ -95,6 +95,7 @@ namespace AudioHelperLib
                 return _counter;
             }
             catch (UnauthorizedAccessException) { return 0; }
+            catch (PathTooLongException) { return 0; }
         }
     }
 }

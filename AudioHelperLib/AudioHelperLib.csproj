@@ -45,11 +45,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AudioFile.cs" />
     <Compile Include="CounterMp3.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SorterMp3.cs" />
     <Compile Include="StaticMethods.cs" />
+    <Compile Include="TagHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

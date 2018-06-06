@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using AudioHelperLib;
+using File = TagLib.File;
 
 namespace Sorter
 {
@@ -35,19 +36,13 @@ namespace Sorter
             //Sorter.DoWork(() => Sorter.Sum());
         }
 
-        private void button4_Click(object sender, EventArgs e)
-        {
-            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
-                textBox3.Text = folderBrowserDialog1.SelectedPath;
-        }
-
+  
         private void button5_Click(object sender, EventArgs e)
         {
-            var list = new List<TagLib.File>();
-            //MessageBox.Show(TagHelper.SetPerformersFromFilename(textBox3.Text, list).ToString());
-            //var l = new List<object>();
-            //l.AddRange(list.Select(o => o.Name));
-            //listBox2.Items.AddRange(l.ToArray());
+            if (folderBrowserDialog1.ShowDialog() != DialogResult.OK) return;
+
+            var list = TagHelper.RecursiveSearch(new List<File>(), folderBrowserDialog1.SelectedPath);
+            listBox2.Items.AddRange(list.Where((f) => f.Tag.Performers.Any((p) => p.Contains("D:"))).ToArray());
         }
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
@@ -65,11 +60,13 @@ namespace Sorter
 
         private void button6_Click(object sender, EventArgs e)
         {
+            if (folderBrowserDialog1.ShowDialog() != DialogResult.OK) return;
+
             var counter = new CounterMp3();
             counter.CurrentDirectoryChanged += (i) => _synchronizer.Post((c) => textBox4.Text = c.ToString(), i);
             counter.Finished += (i) => _synchronizer.Post((s) => MessageBox.Show(s.ToString()), string.Format("I found {0} files", i));
 
-            var thread = new Thread(o => counter.Sum(textBox4.Text, true));
+            var thread = new Thread(o => counter.Sum(folderBrowserDialog1.SelectedPath, true));
             thread.Start();
         }
 
@@ -98,5 +95,6 @@ namespace Sorter
                     throw new ArgumentOutOfRangeException();
             }
         }
+
     }
 }
