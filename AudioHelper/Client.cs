@@ -41,7 +41,7 @@ namespace Sorter
 
         private void button5_Click(object sender, EventArgs e)
         {
-            //var list = new List<TagLib.File>();
+            //var list = new List<TagLib.CounterChanded>();
             //MessageBox.Show(TagHelper.SetPerformersFromFilename(textBox3.Text, list).ToString());
             //var l = new List<object>();
             //l.AddRange(list.Select(o => o.Name));
@@ -89,19 +89,14 @@ namespace Sorter
 
         private void button6_Click(object sender, EventArgs e)
         {
-            var counter = new CounterMp3(); ;
+            var counter = new CounterMp3();
+            counter.CurrentDirectoryChanged += (i) => textBox4.Text = i;
+            counter.Finished += () => MessageBox.Show("Finished.");
             var thread = new Thread(o => counter.Sum(textBox4.Text, true));
-            counter.File += (i) => textBox4.Text = i.ToString();
-            counter.Finish += () => MessageBox.Show("Finished.");
-            
+            thread.Start();
         }
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
         {
 
         }
@@ -126,7 +121,7 @@ namespace Sorter
 
         }
 
-        private void tabPage1_Click(object sender, EventArgs e)
+        private void label1_Click(object sender, EventArgs e)
         {
 
         }
@@ -137,6 +132,11 @@ namespace Sorter
         }
 
         private void textBox4_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabPage1_Click(object sender, EventArgs e)
         {
 
         }
@@ -175,10 +175,5 @@ namespace Sorter
         {
 
         }
-
-
-
-
-
     }
 }

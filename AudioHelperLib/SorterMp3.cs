@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -57,7 +56,7 @@ namespace AudioHelperLib
 
                 var rgx = new Regex("[\\\\" + "\\/" + "\\:" + "\\*" + "\\?" + "\\<" + "\\>" + "\\|" + "\\+]");
                 var filename = rgx.Replace(file.Split('\\').Last(), " ");
-                //File.Copy(file, $"{newpath}\\{filename}");
+                //CounterChanded.Copy(file, $"{newpath}\\{filename}");
 
             }
 

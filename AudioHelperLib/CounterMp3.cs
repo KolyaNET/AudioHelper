@@ -1,46 +1,43 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AudioHelperLib
 {
     public class CounterMp3
     {
-        public event Action<int> Folder;
-        public event Action<int> File;
-        public event Action Finish;
+        public event Action<string> CurrentDirectoryChanged;
+        public event Action<int> CounterChanded;
+        public event Action Finished;
 
-        private int numberOfFolders;
-        public int NumberOfFolders
+        private string _currentDirectory;
+        public string CurrentDirectory
         {
             get
             {
-                return numberOfFolders;
+                return _currentDirectory;
             }
             set
             {
-                numberOfFolders = value;
-                if (Folder != null)
-                    Folder.BeginInvoke(numberOfFolders, null, null);
+                _currentDirectory = value;
+                if (CurrentDirectoryChanged != null)
+                    CurrentDirectoryChanged.BeginInvoke(CurrentDirectory, null, null);
             }
         }
 
-        private int numberOfFiles;
-        public int NumberOfFiles
+        private int _counter;
+        public int Counter
         {
             get
             {
-                return numberOfFiles;
+                return _counter;
             }
             set
             {
 
-                numberOfFiles = value;
-                if (File != null)
-                    File.BeginInvoke(numberOfFolders, null, null);
+                _counter = value;
+                if (CounterChanded != null)
+                    CounterChanded.BeginInvoke(_counter, null, null);
 
             }
         }
@@ -56,11 +53,10 @@ namespace AudioHelperLib
         {
             if (directory == null) throw new ArgumentException();
 
-            numberOfFiles = 0;
-            numberOfFolders = 0;
+            Counter = 0;
 
-            int sum = (recursive) ? RecursiveSum(directory) : Sum(directory);
-            if (Finish != null) Finish.BeginInvoke(null, null);
+            var sum = (recursive) ? RecursiveSum(directory) : Sum(directory);
+            if (Finished != null) Finished.BeginInvoke(null, null);
             return sum;
         }
 
@@ -72,10 +68,10 @@ namespace AudioHelperLib
         private int Sum(string directory)
         {
             if (directory == null) throw new ArgumentException();
-            numberOfFiles =
+            Counter =
                 Directory.GetFiles(directory)
                     .Where((f) => f.IsMp3()).ToList().Count;
-            return numberOfFiles;
+            return Counter;
         }
 
         /// <summary>
@@ -88,13 +84,15 @@ namespace AudioHelperLib
             if (currentDirectory == null) throw new ArgumentException();
             try
             {
+                if (CurrentDirectoryChanged != null)
+                    CurrentDirectoryChanged.BeginInvoke(currentDirectory, null, null);
 
                 var files = Directory.GetFiles(currentDirectory);
-                numberOfFiles = files.Where((f) => f.IsMp3()).ToList().Count;
+                Counter = files.Where((f) => f.IsMp3()).ToList().Count;
                 var directoryes = Directory.GetDirectories(currentDirectory);
                 foreach (var directory in directoryes)
-                    numberOfFiles += RecursiveSum(directory);
-                return numberOfFiles;
+                    Counter += RecursiveSum(directory);
+                return _counter;
             }
             catch (UnauthorizedAccessException) { return 0; }
         }
