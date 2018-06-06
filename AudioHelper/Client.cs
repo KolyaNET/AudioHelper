@@ -43,7 +43,7 @@ namespace Sorter
 
         private void button5_Click(object sender, EventArgs e)
         {
-            //var list = new List<TagLib.CounterChanded>();
+            var list = new List<TagLib.File>();
             //MessageBox.Show(TagHelper.SetPerformersFromFilename(textBox3.Text, list).ToString());
             //var l = new List<object>();
             //l.AddRange(list.Select(o => o.Name));
