@@ -89,7 +89,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AudioSynchronizer\AudioHelperLib.csproj">
+    <ProjectReference Include="..\AudioHelperLib\AudioHelperLib.csproj">
       <Project>{b8cfe271-c13f-4bd9-b968-dc61502ed89b}</Project>
       <Name>AudioHelperLib</Name>
     </ProjectReference>
