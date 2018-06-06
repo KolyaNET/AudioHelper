@@ -7,8 +7,8 @@
     <ProjectGuid>{400151D4-27B5-454A-8DB2-76C32CB571F9}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sorter</RootNamespace>
-    <AssemblyName>Sorter</AssemblyName>
+    <RootNamespace>AudioHelper</RootNamespace>
+    <AssemblyName>AudioHelper</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
