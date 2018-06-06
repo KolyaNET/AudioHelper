@@ -10,9 +10,11 @@ namespace Sorter
 {
     public partial class Client : Form
     {
+        private readonly SynchronizationContext _synchronizer;
 
         public Client()
         {
+            _synchronizer = SynchronizationContext.Current;
             InitializeComponent();
         }
 
@@ -54,32 +56,6 @@ namespace Sorter
             Application.Exit();
         }
 
-        #region Move form
-
-        public const int WM_NCLBUTTONDOWN = 0xA1;
-        public const int HT_CAPTION = 0x2;
-
-        [System.Runtime.InteropServices.DllImportAttribute("user32.dll")]
-        public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
-        [System.Runtime.InteropServices.DllImportAttribute("user32.dll")]
-        public static extern bool ReleaseCapture();
-
-        private void Client_MouseDown(object sender, MouseEventArgs e)
-        {
-            if (e.Button == MouseButtons.Left)
-            {
-                ReleaseCapture();
-                SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
-            }
-        }
-
-        #endregion
-
-        private void Client_Load(object sender, EventArgs e)
-        {
-
-        }
-
         private void button7_Click(object sender, EventArgs e)
         {
 
@@ -90,90 +66,37 @@ namespace Sorter
         private void button6_Click(object sender, EventArgs e)
         {
             var counter = new CounterMp3();
-            counter.CurrentDirectoryChanged += (i) => textBox4.Text = i;
-            counter.Finished += () => MessageBox.Show("Finished.");
+            counter.CurrentDirectoryChanged += (i) => _synchronizer.Post((c) => textBox4.Text = c.ToString(), i);
+            counter.Finished += (i) => _synchronizer.Post((s) => MessageBox.Show(s.ToString()), string.Format("I found {0} files", i));
+
             var thread = new Thread(o => counter.Sum(textBox4.Text, true));
             thread.Start();
         }
 
-        private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
+        private void menuStrip1_MouseDown(object sender, MouseEventArgs e)
         {
-
+            base.Capture = false;
+            var m = Message.Create(base.Handle, 0xa1, new IntPtr(2), IntPtr.Zero);
+            this.WndProc(ref m);
         }
 
-        private void label2_Click(object sender, EventArgs e)
+        private void maxToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox2_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void folderBrowserDialog1_HelpRequest(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tabPage3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox4_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tabPage1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tabPage2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void listBox2_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox3_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void файлToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-
+            switch (WindowState)
+            {
+                case FormWindowState.Normal:
+                    maxToolStripMenuItem.Text = "Min";
+                    WindowState = FormWindowState.Maximized;
+                    return;
+                case FormWindowState.Maximized:
+                    WindowState = FormWindowState.Normal;
+                    maxToolStripMenuItem.Text = "Max";
+                    return;
+                case FormWindowState.Minimized:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
 }

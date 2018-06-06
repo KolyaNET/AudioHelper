@@ -62,7 +62,7 @@ namespace AudioHelperLib
 
             var directories = Directory.GetDirectories(currentfolder);
             foreach (var directory in directories)
-                if (!MoveFiles(directory, destinationFolder)) ;
+                MoveFiles(directory, destinationFolder);
 
             return true;
         }

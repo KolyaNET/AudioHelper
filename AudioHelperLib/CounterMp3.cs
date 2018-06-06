@@ -8,7 +8,7 @@ namespace AudioHelperLib
     {
         public event Action<string> CurrentDirectoryChanged;
         public event Action<int> CounterChanded;
-        public event Action Finished;
+        public event Action<int> Finished;
 
         private string _currentDirectory;
         public string CurrentDirectory
@@ -56,7 +56,7 @@ namespace AudioHelperLib
             Counter = 0;
 
             var sum = (recursive) ? RecursiveSum(directory) : Sum(directory);
-            if (Finished != null) Finished.BeginInvoke(null, null);
+            if (Finished != null) Finished.BeginInvoke(Counter, null, null);
             return sum;
         }
 
