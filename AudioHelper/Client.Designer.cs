@@ -1,4 +1,4 @@
-﻿namespace Sorter
+﻿namespace AudioHelper
 {
     partial class Client
     {
@@ -109,7 +109,6 @@
             this.button3.TabIndex = 6;
             this.button3.Text = "Sort";
             this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // tabControl1
             // 
