@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 using AudioHelperLib;
-using File = TagLib.File;
 
-namespace Sorter
+namespace AudioHelper
 {
     public partial class Client : Form
     {
@@ -31,17 +29,10 @@ namespace Sorter
                 textBox2.Text = folderBrowserDialog1.SelectedPath;
         }
 
-        private void button3_Click(object sender, EventArgs e)
-        {
-            //Sorter.DoWork(() => Sorter.Sum());
-        }
-
-  
         private void button5_Click(object sender, EventArgs e)
         {
             if (folderBrowserDialog1.ShowDialog() != DialogResult.OK) return;
-
-            var list = TagHelper.RecursiveSearch(new List<File>(), folderBrowserDialog1.SelectedPath);
+            var list = TagHelper.RecursiveSearch(new List<TagLib.File>(), folderBrowserDialog1.SelectedPath);
             listBox2.Items.AddRange(list.Where((f) => f.Tag.Performers.Any((p) => p.Contains("D:"))).ToArray());
         }
 
@@ -49,13 +40,6 @@ namespace Sorter
         {
             Close();
             Application.Exit();
-        }
-
-        private void button7_Click(object sender, EventArgs e)
-        {
-
-            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
-                textBox4.Text = folderBrowserDialog1.SelectedPath;
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -72,9 +56,9 @@ namespace Sorter
 
         private void menuStrip1_MouseDown(object sender, MouseEventArgs e)
         {
-            base.Capture = false;
-            var m = Message.Create(base.Handle, 0xa1, new IntPtr(2), IntPtr.Zero);
-            this.WndProc(ref m);
+            Capture = false;
+            var m = Message.Create(Handle, 0xa1, new IntPtr(2), IntPtr.Zero);
+            WndProc(ref m);
         }
 
         private void maxToolStripMenuItem_Click(object sender, EventArgs e)
