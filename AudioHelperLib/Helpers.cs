@@ -2,7 +2,7 @@
 
 namespace AudioHelperLib
 {
-    public static class StaticMethods
+    public static class Helpers
     {
         public static string ReplaceWrongs(this string str)
         {

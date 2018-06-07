@@ -47,13 +47,15 @@ namespace AudioHelper
             if (folderBrowserDialog1.ShowDialog() != DialogResult.OK) return;
 
             var counter = new CounterMp3();
-            counter.CurrentDirectoryChanged += (i) => _synchronizer.Post((c) => textBox4.Text = c.ToString(), i);
-            counter.Finished += (i) => _synchronizer.Post((s) => MessageBox.Show(s.ToString()), string.Format("I found {0} files", i));
+            counter.CurrentDirectoryChanged += (i) => 
+                _synchronizer.Post((c) => textBox4.Text = c.ToString(), i);
+
+            counter.Finished += (i) => 
+                _synchronizer.Post((s) => MessageBox.Show(s.ToString()), string.Format("I found {0} files", i));
 
             var thread = new Thread(o => counter.Sum(folderBrowserDialog1.SelectedPath, true));
             thread.Start();
         }
-
         private void menuStrip1_MouseDown(object sender, MouseEventArgs e)
         {
             Capture = false;
@@ -79,6 +81,5 @@ namespace AudioHelper
                     throw new ArgumentOutOfRangeException();
             }
         }
-
     }
 }

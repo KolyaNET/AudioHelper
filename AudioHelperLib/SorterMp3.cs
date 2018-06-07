@@ -14,7 +14,7 @@ namespace AudioHelperLib
             RecursiveSort(from, to);
         }
 
-        void RecursiveSort(string currentFolder, string destinationFolder)
+        private void RecursiveSort(string currentFolder, string destinationFolder)
         {
             if (currentFolder == null || destinationFolder == null) throw new ArgumentException();
             if (!Directory.Exists(currentFolder)) throw new ArgumentException("Directory is not exist.");

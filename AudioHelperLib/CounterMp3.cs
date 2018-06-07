@@ -34,14 +34,11 @@ namespace AudioHelperLib
             }
             set
             {
-
                 _counter = value;
                 if (CounterChanded != null)
                     CounterChanded.BeginInvoke(_counter, null, null);
-
             }
         }
-
 
         /// <summary>
         /// Count mp3 files in directory and inner directories.
