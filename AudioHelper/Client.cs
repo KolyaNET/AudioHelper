@@ -40,6 +40,7 @@ namespace AudioHelper
         {
             Close();
             Application.Exit();
+            Environment.Exit(Environment.ExitCode); // Exit all running threads.
         }
 
         private void button6_Click(object sender, EventArgs e)

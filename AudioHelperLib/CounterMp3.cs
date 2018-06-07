@@ -89,8 +89,8 @@ namespace AudioHelperLib
                 if (CurrentDirectoryChanged != null)
                     CurrentDirectoryChanged.BeginInvoke(currentDirectory, null, null);
 
-                var files = Directory.GetFiles(currentDirectory);
-                Counter = files.Where((f) => f.IsMp3()).ToList().Count;
+                Counter = Sum(currentDirectory);
+
                 var directoryes = Directory.GetDirectories(currentDirectory);
                 foreach (var directory in directoryes)
                     Counter += RecursiveSum(directory);
