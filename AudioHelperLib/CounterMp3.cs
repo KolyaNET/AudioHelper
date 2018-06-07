@@ -53,6 +53,7 @@ namespace AudioHelperLib
             Counter = 0;
 
             var sum = (recursive) ? RecursiveSum(directory) : Sum(directory);
+
             if (Finished != null) Finished.BeginInvoke(Counter, null, null);
             return sum;
         }
@@ -62,13 +63,17 @@ namespace AudioHelperLib
         /// </summary>
         /// <param name="directory"></param>
         /// <returns></returns>
-        private int Sum(string directory)
+        private static int Sum(string directory)
         {
-            if (directory == null) throw new ArgumentException();
-            Counter =
-                Directory.GetFiles(directory)
-                    .Where((f) => f.IsMp3()).ToList().Count;
-            return Counter;
+            if (directory == null)
+            {
+                throw new ArgumentException();
+            }
+
+            return Directory.GetFiles(directory)
+                .Where(f => f.IsMp3())
+                .ToList()
+                .Count;
         }
 
         /// <summary>
